@@ -1,0 +1,6 @@
+yt-dlp
+mutagen
+Pillow
+pywin32
+requests
+imageio-ffmpeg
