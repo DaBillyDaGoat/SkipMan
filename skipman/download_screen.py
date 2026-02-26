@@ -204,9 +204,14 @@ class DownloadScreen(tk.Frame):
 
     def _download(self, url):
         from skipman.downloader import download_song
-        from skipman.ffmpeg_setup import get_ffmpeg_location
+        from skipman.ffmpeg_setup import ensure_ffmpeg
 
-        ffmpeg_loc = get_ffmpeg_location()
+        try:
+            ffmpeg_loc = ensure_ffmpeg(
+                lambda msg: self.after(0, self._set_status, msg, theme.AMBER))
+        except RuntimeError as e:
+            self.after(0, self._download_done, None, str(e))
+            return
 
         def progress_hook(d):
             if d["status"] == "downloading":
