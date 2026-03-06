@@ -17,9 +17,6 @@ REQUIRED_PACKAGES = {
     "requests": "requests",
 }
 
-# pywin32 is Windows-only and special
-WIN32_PACKAGE = ("win32com", "pywin32")
-
 
 def _check_and_install_deps(status_callback=None):
     """Check for required packages and pip-install any that are missing."""
@@ -29,13 +26,6 @@ def _check_and_install_deps(status_callback=None):
             __import__(module_name)
         except ImportError:
             missing.append(pip_name)
-
-    # Check pywin32 on Windows
-    if sys.platform == "win32":
-        try:
-            __import__(WIN32_PACKAGE[0])
-        except ImportError:
-            missing.append(WIN32_PACKAGE[1])
 
     if not missing:
         return
